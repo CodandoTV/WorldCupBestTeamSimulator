@@ -10,5 +10,7 @@ data class Player(
     @SerialName("jersey_number")
     val jerseyNumber: Int,
     @SerialName("avatar_url")
-    val avatarUrl: String
+    val avatarUrl: String,
+    @SerialName("country_name")
+    val countryName: String,
 )

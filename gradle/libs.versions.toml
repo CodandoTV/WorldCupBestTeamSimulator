@@ -10,6 +10,7 @@ androidx-espresso = "3.7.0"
 androidx-lifecycle = "2.11.0-beta01"
 androidx-testExt = "1.3.0"
 composeMultiplatform = "1.11.1"
+jujubasvg = "1.4.0"
 junit = "4.13.2"
 kotlin = "2.4.0"
 koin = "4.2.1"
@@ -17,6 +18,7 @@ kotlinxSerializationJson = "1.11.0"
 material3 = "1.11.0-alpha07"
 
 [libraries]
+jujubasvg = { module = "io.github.codandotv:jujubaSVG", version.ref = "jujubasvg" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
