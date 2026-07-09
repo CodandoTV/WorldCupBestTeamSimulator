@@ -7,5 +7,6 @@ sealed class PlayersByTeamItem {
 
     data class PlayerItem(
         val player: Player,
+        val isSelected: Boolean = false,
     ) : PlayersByTeamItem()
 }

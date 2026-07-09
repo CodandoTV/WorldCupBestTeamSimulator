@@ -10,6 +10,8 @@ class WorldCupRepositoryImpl : WorldCupRepository {
     private val json = Json { ignoreUnknownKeys = true }
     private var players: List<Player>? = null
 
+    private val selectedPlayers: MutableList<Player> = mutableListOf()
+
     private suspend fun getPlayers(): List<Player> {
         if (players == null) {
             players = runCatching {
@@ -35,5 +37,25 @@ class WorldCupRepositoryImpl : WorldCupRepository {
     override suspend fun searchPlayerByName(name: String): List<Player> {
         val players = getPlayers()
         return players.filter { it.name.contains(name, ignoreCase = true) }
+    }
+
+    override fun selectPlayer(player: Player) {
+        if(selectedPlayers.contains(player).not()) {
+            selectedPlayers.add(player)
+        }
+    }
+
+    override fun selectedPlayers(): List<Player> {
+        return selectedPlayers.toList()
+    }
+
+    override fun isPlayerSelected(playerName: String): Boolean {
+        return selectedPlayers.any {
+            it.name.equals(playerName, ignoreCase = true)
+        }
+    }
+
+    override fun unselectPlayer(player: Player) {
+        selectedPlayers.remove(player)
     }
 }

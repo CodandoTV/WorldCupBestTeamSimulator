@@ -4,4 +4,8 @@ import com.codandotv.worldcupbestteamsimulator.domain.model.Player
 
 interface WorldCupRepository {
     suspend fun searchPlayerByName(name: String): List<Player>
+    fun selectPlayer(player: Player)
+    fun selectedPlayers(): List<Player>
+    fun isPlayerSelected(playerName: String): Boolean
+    fun unselectPlayer(player: Player)
 }

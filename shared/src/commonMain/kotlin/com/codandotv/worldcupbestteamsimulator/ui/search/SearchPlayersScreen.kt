@@ -66,8 +66,12 @@ fun SearchPlayersScreen(
                         is PlayersByTeamItem.PlayerItem -> {
                             PlayerSelectionItem(
                                 playerItem = item,
-                                onSelectedChange = {},
-                                selected = false,
+                                onSelectedChange = { player, value ->
+                                    viewModel.onPlayerSelection(
+                                        player = player,
+                                        value = value,
+                                    )
+                                },
                             )
                         }
 

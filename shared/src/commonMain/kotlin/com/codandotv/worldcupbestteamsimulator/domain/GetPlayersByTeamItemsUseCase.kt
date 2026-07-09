@@ -15,7 +15,10 @@ class GetPlayersByTeamItemsUseCase(
             items.addAll(
                 it.value.map { player ->
                     PlayersByTeamItem.PlayerItem(
-                        player = player
+                        player = player,
+                        isSelected = repository.isPlayerSelected(
+                            playerName = player.name
+                        )
                     )
                 }
             )

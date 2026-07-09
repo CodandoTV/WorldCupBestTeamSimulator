@@ -1,8 +1,8 @@
 package com.codandotv.worldcupbestteamsimulator.ui.search.widget
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
@@ -23,15 +23,16 @@ import com.codandotv.worldcupbestteamsimulator.domain.model.PlayersByTeamItem
 @Composable
 fun PlayerSelectionItem(
     playerItem: PlayersByTeamItem.PlayerItem,
-    selected: Boolean,
-    onSelectedChange: (Boolean) -> Unit,
+    onSelectedChange: (PlayersByTeamItem.PlayerItem, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val player = playerItem.player
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onSelectedChange(!selected) },
+            .toggleable(playerItem.isSelected) {
+                onSelectedChange(playerItem, it)
+            },
         color = MaterialTheme.colorScheme.surface
     ) {
         Row(
@@ -95,8 +96,10 @@ fun PlayerSelectionItem(
             }
 
             Checkbox(
-                checked = selected,
-                onCheckedChange = onSelectedChange
+                checked = playerItem.isSelected,
+                onCheckedChange = {
+                    onSelectedChange(playerItem, it)
+                }
             )
         }
     }

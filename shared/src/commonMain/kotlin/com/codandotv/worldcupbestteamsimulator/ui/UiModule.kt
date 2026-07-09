@@ -13,7 +13,8 @@ val uiModule = module {
 
     viewModel {
         SearchPlayersViewModel(
-            get()
+            getPlayersByTeamItemsUseCase = get(),
+            repository = get(),
         )
     }
 }
