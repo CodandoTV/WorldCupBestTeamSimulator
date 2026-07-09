@@ -1,4 +1,4 @@
-package com.codandotv.worldcupbestteamsimulator.data.model
+package com.codandotv.worldcupbestteamsimulator.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

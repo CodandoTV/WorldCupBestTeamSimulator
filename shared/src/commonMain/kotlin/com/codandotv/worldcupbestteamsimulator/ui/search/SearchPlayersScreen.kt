@@ -14,6 +14,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.codandotv.worldcupbestteamsimulator.domain.model.PlayersByTeamItem
+import com.codandotv.worldcupbestteamsimulator.ui.search.widget.CountrySectionItem
 import com.codandotv.worldcupbestteamsimulator.ui.search.widget.PlayerSelectionItem
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -28,6 +30,9 @@ fun SearchPlayersScreen(
             TopAppBar(
                 title = {
                     TextField(
+                        placeholder = {
+                            Text("search by name")
+                        },
                         value = uiState.query,
                         onValueChange = {
                             viewModel.onTextFieldValueChanged(it)
@@ -47,11 +52,21 @@ fun SearchPlayersScreen(
         ) {
             uiState.results?.let {
                 items(uiState.results!!) { item ->
-                    PlayerSelectionItem(
-                        player = item,
-                        onSelectedChange = {},
-                        selected = false,
-                    )
+                    when (item) {
+                        is PlayersByTeamItem.PlayerItem -> {
+                            PlayerSelectionItem(
+                                playerItem = item,
+                                onSelectedChange = {},
+                                selected = false,
+                            )
+                        }
+
+                        is PlayersByTeamItem.TeamItem -> {
+                            CountrySectionItem(
+                                countryItem = item,
+                            )
+                        }
+                    }
                 }
             }
         }

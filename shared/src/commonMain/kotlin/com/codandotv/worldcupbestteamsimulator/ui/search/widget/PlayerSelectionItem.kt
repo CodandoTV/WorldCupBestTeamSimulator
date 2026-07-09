@@ -16,15 +16,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.codandotv.worldcupbestteamsimulator.data.model.Player
+import com.codandotv.worldcupbestteamsimulator.domain.model.PlayersByTeamItem
 
 @Composable
 fun PlayerSelectionItem(
-    player: Player,
+    playerItem: PlayersByTeamItem.PlayerItem,
     selected: Boolean,
     onSelectedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val player = playerItem.player
     Surface(
         modifier = modifier
             .fillMaxWidth()

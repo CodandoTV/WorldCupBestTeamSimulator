@@ -3,7 +3,7 @@ package com.codandotv.worldcupbestteamsimulator.ui.search
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.codandotv.worldcupbestteamsimulator.data.WorldCupRepository
+import com.codandotv.worldcupbestteamsimulator.domain.GetPlayersByTeamItemsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SearchPlayersViewModel(
-    private val repository: WorldCupRepository
+    private val getPlayersByTeamItemsUseCase: GetPlayersByTeamItemsUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -30,7 +30,7 @@ class SearchPlayersViewModel(
     }
 
     private suspend fun onSearchBy(query: String) {
-        val players = repository.searchPlayerByName(
+        val players = getPlayersByTeamItemsUseCase.getPlayersByTeam(
             name = query
         )
 

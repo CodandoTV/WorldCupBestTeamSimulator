@@ -1,6 +1,7 @@
 package com.codandotv.worldcupbestteamsimulator.data
 
-import com.codandotv.worldcupbestteamsimulator.data.model.Player
+import com.codandotv.worldcupbestteamsimulator.domain.WorldCupRepository
+import com.codandotv.worldcupbestteamsimulator.domain.model.Player
 import kotlinx.serialization.json.Json
 import worldcupbestteamsimulator.shared.generated.resources.Res
 
@@ -19,15 +20,7 @@ class WorldCupRepositoryImpl : WorldCupRepository {
     }
 
     override suspend fun searchPlayerByName(name: String): List<Player> {
-        return if (name.isNotEmpty()) {
-            val players = getPlayers()
-            players.filter { it.name.contains(name, ignoreCase = true) }
-        } else {
-            emptyList()
-        }
+        val players = getPlayers()
+        return players.filter { it.name.contains(name, ignoreCase = true) }
     }
-}
-
-interface WorldCupRepository {
-    suspend fun searchPlayerByName(name: String): List<Player>
 }
