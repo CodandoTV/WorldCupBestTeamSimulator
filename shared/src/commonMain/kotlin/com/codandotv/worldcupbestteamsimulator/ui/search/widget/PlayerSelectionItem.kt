@@ -58,11 +58,20 @@ fun PlayerSelectionItem(
                 contentDescription = playerItem.player.name,
                 filterQuality = FilterQuality.None,
                 onFailure = {
-                    Text(
-                        text = initials,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.DarkGray
-                    )
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .clip(CircleShape)
+                            .background(Color.White)
+                    ) {
+                        Text(
+                            text = initials,
+                            modifier = Modifier.align(Alignment.Center)
+                                .clip(CircleShape),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.DarkGray
+                        )
+                    }
                 }
             )
 
