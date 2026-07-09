@@ -51,7 +51,17 @@ fun SearchPlayersScreen(
                 .fillMaxSize()
         ) {
             uiState.results?.let {
-                items(uiState.results!!) { item ->
+                items(uiState.results!!, key = {
+                    when (it) {
+                        is PlayersByTeamItem.PlayerItem -> {
+                            it.player.name
+                        }
+
+                        is PlayersByTeamItem.TeamItem -> {
+                            it.countryName
+                        }
+                    }
+                }) { item ->
                     when (item) {
                         is PlayersByTeamItem.PlayerItem -> {
                             PlayerSelectionItem(
