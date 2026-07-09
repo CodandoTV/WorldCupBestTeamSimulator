@@ -14,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.codandotv.worldcupbestteamsimulator.domain.model.PlayersByTeamItem
@@ -47,19 +49,22 @@ fun PlayerSelectionItem(
                     .joinToString("")
             }
 
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFFEEEEEE)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = initials,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.DarkGray
-                )
-            }
+            AsyncImage(
+                modifier = Modifier.size(48.dp)
+                    .align(Alignment.CenterVertically)
+                    .clip(CircleShape),
+                imageUrl = playerItem.player.avatarUrl,
+                contentScale = ContentScale.Crop,
+                contentDescription = playerItem.player.name,
+                filterQuality = FilterQuality.None,
+                onFailure = {
+                    Text(
+                        text = initials,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.DarkGray
+                    )
+                }
+            )
 
             Spacer(modifier = Modifier.width(12.dp))
 
