@@ -20,16 +20,34 @@ import com.codandotv.worldcupbestteamsimulator.SEARCH_ROUTE
 import com.github.codandotv.jujubasvg.core.JujubaSVG
 import com.github.codandotv.jujubasvg.core.rememberJujubaCommander
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import org.koin.compose.viewmodel.koinViewModel
 import worldcupbestteamsimulator.shared.generated.resources.Res
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    viewModel: HomeViewModel = koinViewModel()
+) {
     var svgText by remember { mutableStateOf<String?>(null) }
+
+    val commander = rememberJujubaCommander()
 
     LaunchedEffect(Unit) {
         withContext(Dispatchers.Default) {
             svgText = Res.readBytes("files/soccer-field.svg").decodeToString()
+        }
+    }
+
+    LaunchedEffect(svgText) {
+        if (svgText != null) {
+            val commands = viewModel.selectedPlayersDrawingCommands()
+            if(commands.isNotEmpty()) {
+                delay(250L)
+                commander.execute(
+                    *commands.toTypedArray()
+                )
+            }
         }
     }
 
@@ -61,7 +79,7 @@ fun HomeScreen() {
             if (svgText != null) {
                 JujubaSVG(
                     svgText = svgText!!,
-                    commander = rememberJujubaCommander(),
+                    commander = commander,
                     onElementClick = {
                         it.toString()
                     }
