@@ -1,10 +1,13 @@
 package com.codandotv.worldcupbestteamsimulator.ui.search
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -12,6 +15,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.codandotv.worldcupbestteamsimulator.domain.model.PlayersByTeamItem
@@ -29,17 +33,31 @@ fun SearchPlayersScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    TextField(
-                        placeholder = {
-                            Text("search by name")
-                        },
-                        value = uiState.query,
-                        onValueChange = {
-                            viewModel.onTextFieldValueChanged(it)
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        TextField(
+                            placeholder = {
+                                Text("search by name")
+                            },
+                            value = uiState.query,
+                            onValueChange = {
+                                viewModel.onTextFieldValueChanged(it)
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+
+                        AssistChip(
+                            onClick = {},
+                            label = {
+                                Text(
+                                    "# ${uiState.selectedPlayersCount}",
+                                )
+                            }
+                        )
+                    }
                 }
             )
         }

@@ -6,4 +6,5 @@ import com.codandotv.worldcupbestteamsimulator.domain.model.PlayersByTeamItem
 data class SearchScreenUiState(
     val query: TextFieldValue = TextFieldValue(),
     val results: List<PlayersByTeamItem>?,
+    val selectedPlayersCount: Int = 0,
 )

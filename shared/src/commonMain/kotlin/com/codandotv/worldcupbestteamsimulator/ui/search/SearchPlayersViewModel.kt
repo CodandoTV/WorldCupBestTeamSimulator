@@ -86,8 +86,11 @@ class SearchPlayersViewModel(
                 }
             }?.toList()
 
+            val selectedPlayersCount = repository.selectedPlayers().size
+
             it.copy(
-                results = results
+                results = results,
+                selectedPlayersCount = selectedPlayersCount
             )
         }
     }
