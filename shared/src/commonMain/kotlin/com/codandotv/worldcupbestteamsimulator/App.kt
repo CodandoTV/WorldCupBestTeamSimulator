@@ -1,28 +1,40 @@
 package com.codandotv.worldcupbestteamsimulator
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.codandotv.worldcupbestteamsimulator.ui.HomeScreen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.codandotv.worldcupbestteamsimulator.ui.home.HomeScreen
 import com.codandotv.worldcupbestteamsimulator.ui.search.SearchPlayersScreen
+
+val LocalNavController = compositionLocalOf<NavHostController> { error("No NavController found!") }
+
+const val SEARCH_ROUTE = "search"
+const val HOME_ROUTE = "home"
 
 @Composable
 @Preview
 fun App() {
+    val navigator = rememberNavController()
     MaterialTheme {
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            SearchPlayersScreen()
+        CompositionLocalProvider(LocalNavController provides navigator) {
+            NavHost(
+                navController = navigator,
+                startDestination = HOME_ROUTE
+            ) {
+                composable(
+                    route = HOME_ROUTE
+                ) {
+                    HomeScreen()
+                }
+
+                composable(route = SEARCH_ROUTE) {
+                    SearchPlayersScreen()
+                }
+            }
         }
     }
 }

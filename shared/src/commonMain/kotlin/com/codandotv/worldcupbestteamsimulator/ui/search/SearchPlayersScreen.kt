@@ -7,7 +7,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -18,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.codandotv.worldcupbestteamsimulator.LocalNavController
 import com.codandotv.worldcupbestteamsimulator.domain.model.PlayersByTeamItem
 import com.codandotv.worldcupbestteamsimulator.ui.search.widget.CountrySectionItem
 import com.codandotv.worldcupbestteamsimulator.ui.search.widget.PlayerSelectionItem
@@ -28,8 +33,10 @@ fun SearchPlayersScreen(
     viewModel: SearchPlayersViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val navigator = LocalNavController.current
 
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 title = {
@@ -58,7 +65,19 @@ fun SearchPlayersScreen(
                             }
                         )
                     }
-                }
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            navigator.popBackStack()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Close,
+                            contentDescription = "Close"
+                        )
+                    }
+                },
             )
         }
     ) { paddingValues ->
