@@ -1,5 +1,6 @@
 package com.codandotv.worldcupbestteamsimulator.ui
 
+import com.codandotv.worldcupbestteamsimulator.ui.home.HomeViewModel
 import com.codandotv.worldcupbestteamsimulator.ui.search.SearchPlayersViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module

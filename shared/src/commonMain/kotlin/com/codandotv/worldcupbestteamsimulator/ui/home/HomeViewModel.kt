@@ -1,4 +1,4 @@
-package com.codandotv.worldcupbestteamsimulator.ui
+package com.codandotv.worldcupbestteamsimulator.ui.home
 
 import androidx.lifecycle.ViewModel
 import com.codandotv.worldcupbestteamsimulator.domain.WorldCupRepository

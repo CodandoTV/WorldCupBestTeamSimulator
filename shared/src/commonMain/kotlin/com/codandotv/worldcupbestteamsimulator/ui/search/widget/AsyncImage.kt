@@ -33,7 +33,7 @@ internal fun AsyncImage(
         ).data(
             imageUrl,
         ).listener(
-            onError = { imageRequest, errorResult ->
+            onError = { _, errorResult ->
                 errorResult.throwable.printStackTrace()
             }
         )
