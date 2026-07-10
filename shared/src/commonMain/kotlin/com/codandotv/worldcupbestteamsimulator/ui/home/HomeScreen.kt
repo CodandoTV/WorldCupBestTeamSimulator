@@ -2,6 +2,8 @@ package com.codandotv.worldcupbestteamsimulator.ui.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlusOne
 import androidx.compose.material3.FloatingActionButton
@@ -49,8 +51,14 @@ fun HomeScreen() {
                 }
             )
         }
-    ) {
-        Column {
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding(),
+                )
+        ) {
             if (svgText != null) {
                 JujubaSVG(
                     svgText = svgText!!,
