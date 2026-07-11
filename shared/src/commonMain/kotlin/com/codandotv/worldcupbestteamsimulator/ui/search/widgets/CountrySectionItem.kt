@@ -1,4 +1,4 @@
-package com.codandotv.worldcupbestteamsimulator.ui.search.widget
+package com.codandotv.worldcupbestteamsimulator.ui.search.widgets
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape

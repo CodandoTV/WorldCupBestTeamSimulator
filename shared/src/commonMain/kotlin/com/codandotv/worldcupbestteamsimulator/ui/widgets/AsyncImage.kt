@@ -1,4 +1,4 @@
-package com.codandotv.worldcupbestteamsimulator.ui.search.widget
+package com.codandotv.worldcupbestteamsimulator.ui.widgets
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.heightIn

@@ -1,4 +1,4 @@
-package com.codandotv.worldcupbestteamsimulator.ui.search.widget
+package com.codandotv.worldcupbestteamsimulator.ui.search.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.codandotv.worldcupbestteamsimulator.domain.model.PlayersByTeamItem
+import com.codandotv.worldcupbestteamsimulator.ui.widgets.AsyncImage
 
 @Composable
 fun PlayerSelectionItem(

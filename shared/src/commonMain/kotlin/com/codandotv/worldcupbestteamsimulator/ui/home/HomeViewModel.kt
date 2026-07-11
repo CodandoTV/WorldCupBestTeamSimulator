@@ -3,52 +3,59 @@ package com.codandotv.worldcupbestteamsimulator.ui.home
 import androidx.lifecycle.ViewModel
 import com.codandotv.worldcupbestteamsimulator.domain.WorldCupRepository
 import com.codandotv.worldcupbestteamsimulator.domain.model.Player
-import com.github.codandotv.jujubasvg.core.commander.Command
-import com.github.codandotv.jujubasvg.model.NodeCoordinate
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
-private const val SOCCER_FIELD_ID = "soccer_field"
-
-private const val FIELD_WIDTH = 572f
-private const val AVATAR_SIZE = 60
-private const val PADDING_X = 70f
-
-private val POSITION_Y_MAP = mapOf(
-    "goalkeeper" to 900f,
-    "defender" to 660f,
-    "midfielder" to 420f,
-    "forward" to 180f,
-)
 
 class HomeViewModel(
     private val repository: WorldCupRepository
 ) : ViewModel() {
 
-    fun selectedPlayersDrawingCommands(): List<Command> {
-        val players = repository.selectedPlayers()
-        val grouped = players.groupBy { it.position.lowercase() }
+    private val _uiState = MutableStateFlow(
+        HomeScreenUiState(
+            null,
+            emptyList(),
+        )
+    )
+    val uiState: StateFlow<HomeScreenUiState> = _uiState
 
-        return POSITION_Y_MAP.flatMap { (position, y) ->
-            positionCommands(grouped[position] ?: emptyList(), y)
+    private val svgImageIds = mutableListOf<String>()
+
+    fun refresh() {
+        svgImageIds.clear()
+
+        _uiState.update {
+            it.copy(
+                players = repository.selectedPlayers().map {
+                    PlayerRowItem(
+                        isSelected = false,
+                        svgImageId = convertToId(it),
+                        player = it,
+                    )
+                }
+            )
         }
     }
 
-    private fun positionCommands(players: List<Player>, y: Float): List<Command> {
-        val usableWidth = FIELD_WIDTH - 2 * PADDING_X
-        return players.mapIndexed { index, player ->
-            val x = if (players.size == 1) {
-                FIELD_WIDTH / 2
-            } else {
-                PADDING_X + (usableWidth / (players.size + 1)) * (index + 1)
-            }
-            Command.AddRoundedImage(
-                imageId = convertToId(player),
-                coordinate = NodeCoordinate(x = x, y = y),
-                imageUrl = player.avatarUrl,
-                elementId = SOCCER_FIELD_ID,
-                widthInPx = AVATAR_SIZE,
-                heightInPx = AVATAR_SIZE,
+    fun onSelect(playerRowItem: PlayerRowItem) {
+        _uiState.update {
+            it.copy(
+                currentSelectedPlayer = playerRowItem
             )
         }
+    }
+
+    fun onImageAddedToSVG(imageId: String) {
+        svgImageIds.add(imageId)
+    }
+
+    fun onImageRemovedFromSVG(imageId: String) {
+        svgImageIds.remove(imageId)
+    }
+
+    fun wasImageAlreadyAdded(imageId: String): Boolean {
+        return svgImageIds.contains(imageId)
     }
 
     private fun convertToId(player: Player): String {

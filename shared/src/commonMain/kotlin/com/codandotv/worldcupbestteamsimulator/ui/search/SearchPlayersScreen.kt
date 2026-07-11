@@ -24,8 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.codandotv.worldcupbestteamsimulator.LocalNavController
 import com.codandotv.worldcupbestteamsimulator.domain.model.PlayersByTeamItem
-import com.codandotv.worldcupbestteamsimulator.ui.search.widget.CountrySectionItem
-import com.codandotv.worldcupbestteamsimulator.ui.search.widget.PlayerSelectionItem
+import com.codandotv.worldcupbestteamsimulator.ui.search.widgets.CountrySectionItem
+import com.codandotv.worldcupbestteamsimulator.ui.search.widgets.PlayerSelectionItem
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
