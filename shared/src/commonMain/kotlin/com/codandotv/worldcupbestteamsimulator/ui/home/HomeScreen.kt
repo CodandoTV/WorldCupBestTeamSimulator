@@ -78,7 +78,7 @@ fun HomeScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        bottomBar = {
+        floatingActionButton = {
             FloatingActionButton(
                 onClick = {
                     navigator.navigate(SEARCH_ROUTE)
@@ -90,7 +90,7 @@ fun HomeScreen(
                     )
                 }
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             modifier = Modifier.fillMaxSize()
