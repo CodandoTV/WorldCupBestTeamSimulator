@@ -19,7 +19,9 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.PlusOne
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -36,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.codandotv.worldcupbestteamsimulator.LocalNavController
 import com.codandotv.worldcupbestteamsimulator.SEARCH_ROUTE
+import com.codandotv.worldcupbestteamsimulator.ui.home.widgets.PlayerBenchItem
 import com.github.codandotv.jujubasvg.core.JujubaSVG
 import com.github.codandotv.jujubasvg.core.commander.Command
 import com.github.codandotv.jujubasvg.core.rememberJujubaCommander
@@ -98,37 +101,21 @@ fun HomeScreen(
         ) {
             LazyRow(
                 modifier = Modifier.fillMaxWidth()
-                    .selectableGroup()
-                    .height(64.dp),
+                    .selectableGroup(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(uiState.players) {
-                    val isSelected = uiState.currentSelectedPlayer == it
-                    Box(
-                        modifier = Modifier.size(80.dp)
-                            .selectable(
-                                selected = isSelected,
-                                onClick = {
-                                    viewModel.onSelect(it)
-                                }
-                            )
-                            .background(Color.LightGray)
-                    ) {
-                        AsyncImage(
-                            it.player.avatarUrl,
-                            contentDescription = it.player.name,
-                            modifier = Modifier.size(64.dp)
-                                .clip(CircleShape)
-                                .align(Alignment.Center),
-                        )
-
-                        if (isSelected) {
-                            Icon(
-                                imageVector = Icons.Filled.CheckCircle,
-                                contentDescription = "check circle"
-                            )
-                        }
-                    }
+                    val isSelected = it == uiState.currentSelectedPlayer
+                    PlayerBenchItem(
+                        item = it,
+                        modifier = Modifier.selectable(
+                            selected = isSelected,
+                            onClick = {
+                                viewModel.onSelect(it)
+                            }
+                        ),
+                        isSelected = isSelected,
+                    )
                 }
             }
 
