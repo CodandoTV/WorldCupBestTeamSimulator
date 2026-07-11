@@ -134,6 +134,7 @@ fun HomeScreen(
                 JujubaSVG(
                     svgText = svgText!!,
                     commander = commander,
+                    modifier = Modifier.fillMaxSize(),
                     onElementClick = {
                         if (it.id == uiState.currentSelectedPlayer?.svgImageId) {
                             coroutineScope.launch {
