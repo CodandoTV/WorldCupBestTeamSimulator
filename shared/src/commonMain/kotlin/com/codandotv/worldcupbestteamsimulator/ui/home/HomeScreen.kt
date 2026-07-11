@@ -1,27 +1,23 @@
 package com.codandotv.worldcupbestteamsimulator.ui.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.PlusOne
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -32,10 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.codandotv.worldcupbestteamsimulator.LocalNavController
 import com.codandotv.worldcupbestteamsimulator.SEARCH_ROUTE
 import com.codandotv.worldcupbestteamsimulator.ui.home.widgets.PlayerBenchItem
@@ -99,23 +92,41 @@ fun HomeScreen(
                     bottom = paddingValues.calculateBottomPadding(),
                 )
         ) {
-            LazyRow(
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
-                    .selectableGroup(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(uiState.players) {
-                    val isSelected = it == uiState.currentSelectedPlayer
-                    PlayerBenchItem(
-                        item = it,
-                        modifier = Modifier.selectable(
-                            selected = isSelected,
-                            onClick = {
-                                viewModel.onSelect(it)
-                            }
-                        ),
-                        isSelected = isSelected,
-                    )
+                if (uiState.currentSelectedPlayer != null) {
+                    IconButton(
+                        modifier = Modifier.size(48.dp),
+                        onClick = {
+                            viewModel.clearSelection()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = "clear selection"
+                        )
+                    }
+                }
+                LazyRow(
+                    modifier = Modifier.weight(1f)
+                        .selectableGroup(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(uiState.players) {
+                        val isSelected = it == uiState.currentSelectedPlayer
+                        PlayerBenchItem(
+                            item = it,
+                            modifier = Modifier.selectable(
+                                selected = isSelected,
+                                onClick = {
+                                    viewModel.onSelect(it)
+                                }
+                            ),
+                            isSelected = isSelected,
+                        )
+                    }
                 }
             }
 
@@ -165,4 +176,9 @@ fun HomeScreen(
             }
         }
     }
+}
+
+@Composable
+fun Row(content: @Composable () -> Unit) {
+    TODO("Not yet implemented")
 }

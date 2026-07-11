@@ -45,6 +45,14 @@ class HomeViewModel(
         }
     }
 
+    fun clearSelection() {
+        _uiState.update {
+            it.copy(
+                currentSelectedPlayer = null,
+            )
+        }
+    }
+
     fun onImageAddedToSVG(imageId: String) {
         svgImageIds.add(imageId)
     }
