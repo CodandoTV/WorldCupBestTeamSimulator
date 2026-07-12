@@ -57,6 +57,7 @@ fun PlayerSelectionItem(
                     .clip(CircleShape),
                 imageUrl = playerItem.player.avatarUrl,
                 contentScale = ContentScale.Crop,
+                alignment = Alignment.TopCenter,
                 contentDescription = playerItem.player.name,
                 filterQuality = FilterQuality.None,
                 onFailure = {
