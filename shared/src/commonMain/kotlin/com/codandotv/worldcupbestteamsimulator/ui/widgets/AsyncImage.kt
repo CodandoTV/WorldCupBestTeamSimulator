@@ -25,6 +25,7 @@ internal fun AsyncImage(
     onFailure: (@Composable () -> Unit) = {},
     filterQuality: FilterQuality = FilterQuality.High,
     modifier: Modifier = Modifier,
+    alignment: Alignment = Alignment.Center,
 ) {
     val platformContext = LocalPlatformContext.current
     val imageRequest = remember {
@@ -47,6 +48,7 @@ internal fun AsyncImage(
         filterQuality = filterQuality,
         contentDescription = contentDescription,
         contentScale = contentScale,
+        alignment = alignment,
         modifier = modifier,
         loading = {
             Box {

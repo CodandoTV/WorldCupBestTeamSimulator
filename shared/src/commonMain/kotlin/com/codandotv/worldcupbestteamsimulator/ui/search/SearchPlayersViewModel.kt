@@ -6,12 +6,16 @@ import androidx.lifecycle.viewModelScope
 import com.codandotv.worldcupbestteamsimulator.domain.GetPlayersByTeamItemsUseCase
 import com.codandotv.worldcupbestteamsimulator.domain.WorldCupRepository
 import com.codandotv.worldcupbestteamsimulator.domain.model.PlayersByTeamItem
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@OptIn(FlowPreview::class)
 class SearchPlayersViewModel(
     private val getPlayersByTeamItemsUseCase: GetPlayersByTeamItemsUseCase,
     private val repository: WorldCupRepository,
@@ -26,9 +30,11 @@ class SearchPlayersViewModel(
 
     init {
         viewModelScope.launch {
-            _uiState.debounce(250).collect {
-                onSearchBy(it.query.text)
-            }
+            _uiState
+                .map { it.query.text }
+                .distinctUntilChanged()
+                .debounce(250)
+                .collect { onSearchBy(it) }
         }
     }
 
@@ -46,13 +52,7 @@ class SearchPlayersViewModel(
 
     fun onTextFieldValueChanged(newQuery: TextFieldValue) {
         _uiState.update {
-            it.copy(
-                query = newQuery
-            )
-        }
-
-        viewModelScope.launch {
-            onSearchBy(query = newQuery.text)
+            it.copy(query = newQuery)
         }
     }
 
