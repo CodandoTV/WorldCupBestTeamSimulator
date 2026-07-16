@@ -1,6 +1,8 @@
 package com.codandotv.worldcupbestteamsimulator.ui.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,33 +26,24 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.codandotv.worldcupbestteamsimulator.LocalNavController
 import com.codandotv.worldcupbestteamsimulator.SEARCH_ROUTE
 import com.codandotv.worldcupbestteamsimulator.ui.home.widgets.PlayerBenchItem
-import com.github.codandotv.jujubasvg.core.JujubaSVG
-import com.github.codandotv.jujubasvg.core.commander.Command
-import com.github.codandotv.jujubasvg.core.rememberJujubaCommander
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.compose.viewmodel.koinViewModel
 import worldcupbestteamsimulator.shared.generated.resources.Res
-
-private const val SOCCER_FIELD_ID = "soccer_field"
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel()
 ) {
     var svgText by remember { mutableStateOf<String?>(null) }
-
-    val commander = rememberJujubaCommander()
-
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -66,8 +59,6 @@ fun HomeScreen(
     }
 
     val navigator = LocalNavController.current
-
-    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -131,55 +122,11 @@ fun HomeScreen(
             }
 
             if (svgText != null) {
-                JujubaSVG(
-                    svgText = svgText!!,
-                    commander = commander,
-                    modifier = Modifier.fillMaxSize(),
-                    onElementClick = {
-                        if (it.id == uiState.currentSelectedPlayer?.svgImageId) {
-                            coroutineScope.launch {
-                                commander.execute(
-                                    Command.RemoveNode(it.id)
-                                )
-                                viewModel.onImageRemovedFromSVG(it.id)
-                            }
-                        } else {
-                            uiState.currentSelectedPlayer?.let { playerRowItem ->
-                                if (viewModel.wasImageAlreadyAdded(playerRowItem.svgImageId)) {
-                                    coroutineScope.launch {
-                                        commander.execute(
-                                            Command.RemoveNode(playerRowItem.svgImageId)
-                                        )
-                                        viewModel.onImageRemovedFromSVG(playerRowItem.svgImageId)
-                                    }
-                                }
-
-                                coroutineScope.launch {
-                                    commander.execute(
-                                        Command.AddRoundedImage(
-                                            imageId = playerRowItem.svgImageId,
-                                            elementId = SOCCER_FIELD_ID,
-                                            heightInPx = 60,
-                                            widthInPx = 60,
-                                            coordinate = it.rootCoordinate.copy(
-                                                x = it.rootCoordinate.x - 30,
-                                                y = it.rootCoordinate.y - 30
-                                            ),
-                                            imageUrl = playerRowItem.player.avatarUrl
-                                        )
-                                    )
-                                    viewModel.onImageAddedToSVG(playerRowItem.svgImageId)
-                                }
-                            }
-                        }
-                    }
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                        .background(Color.Magenta)
                 )
             }
         }
     }
-}
-
-@Composable
-fun Row(content: @Composable () -> Unit) {
-    TODO("Not yet implemented")
 }
