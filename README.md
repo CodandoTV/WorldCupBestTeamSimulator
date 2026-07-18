@@ -1,3 +1,5 @@
+![Logo do Projeto](img/codandotv.png)
+
 # WorldCupBestTeamSimulator
 
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.4.0-purple?logo=kotlin)
