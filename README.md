@@ -14,7 +14,7 @@ Build your 2026 World Cup dream team by searching real players, selecting them, 
 
 ## Screenshots
 
-<img src="img/screen_recording.gif" width="720" alt="App demo">
+<img src="img/screen_recording.gif" width="300" alt="App demo">
 
 ---
 
