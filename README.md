@@ -1,24 +1,93 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# WorldCupBestTeamSimulator
 
-* [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+![Kotlin](https://img.shields.io/badge/Kotlin-2.4.0-purple?logo=kotlin)
+![Compose Multiplatform](https://img.shields.io/badge/Compose_Multiplatform-1.11.1-blue)
+![Android](https://img.shields.io/badge/Android-API_24+-brightgreen?logo=android)
+![iOS](https://img.shields.io/badge/iOS-16+-black?logo=apple)
+![JujubaSVG](https://img.shields.io/badge/JujubaSVG-1.4.2-orange)
 
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
+> A Compose Multiplatform sample app demonstrating **[JujubaSVG](https://github.com/CodandoTV/jujubaSVG)** — the SVG manipulation library for Kotlin Multiplatform.
 
-### Running the apps
-
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
-
-- Android app: `./gradlew :androidApp:assembleDebug`
-- iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+Build your 2026 World Cup dream team by searching real players, selecting them, and tapping their avatars onto an interactive SVG soccer field.
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## Screenshots
+
+<video src="img/Screen_recording_20260718_192658.mp4" controls width="720"></video>
+
+---
+
+## JujubaSVG features demonstrated
+
+| Feature | Usage |
+|---------|-------|
+| **Render SVG** | `JujubaSVG(svgText, commander, onElementClick)` renders `soccer-field.svg` inside a WebView |
+| **Click handling** | `onElementClick` callback returns the tapped element's `id`, `coordinate`, and `rootCoordinate` |
+| **Add rounded image** | `Command.AddRoundedImage` places a player avatar at the tapped position |
+| **Remove node** | `Command.RemoveNode(id)` removes a player image from the field |
+| **Commander pattern** | `rememberJujubaCommander()` + `commander.execute(command)` queues and sends commands to the WebView |
+
+```kotlin
+// Render the SVG field
+val commander = rememberJujubaCommander()
+
+JujubaSVG(
+    svgText = svgText,
+    commander = commander,
+    modifier = Modifier.fillMaxSize(),
+    onElementClick = { nodeInfo ->
+        // Add player avatar where the user tapped
+        commander.execute(
+            Command.AddRoundedImage(
+                imageId = player.svgImageId,
+                elementId = "soccer_field",
+                heightInPx = 60,
+                widthInPx = 60,
+                coordinate = nodeInfo.rootCoordinate.copy(
+                    x = nodeInfo.rootCoordinate.x - 30,
+                    y = nodeInfo.rootCoordinate.y - 30
+                ),
+                imageUrl = player.avatarUrl
+            )
+        )
+    }
+)
+
+// Remove a player image
+commander.execute(Command.RemoveNode(existingImageId))
+```
+
+---
+
+## Build & run
+
+**Android:**
+```bash
+./gradlew :androidApp:assembleDebug
+```
+
+**iOS:**
+Open `iosApp/` in Xcode and run on a simulator or device.
+
+---
+
+## Project structure
+
+```
+shared/src/commonMain/
+├── kotlin/…/ui/home/
+│   ├── HomeScreen.kt        # JujubaSVG rendering + command execution
+│   ├── HomeViewModel.kt     # Tracks which player images are on the field
+│   └── HomeScreenUiState.kt # UI state (svgImageId per player)
+├── composeResources/files/
+│   ├── soccer-field.svg     # SVG soccer field rendered by JujubaSVG
+│   └── world_cup_2026_teams.json  # Player data
+```
+
+---
+
+## Links
+
+- [JujubaSVG repository](https://github.com/CodandoTV/jujubaSVG) — full API docs, all command types, and integration guide
+- [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) — official documentation
